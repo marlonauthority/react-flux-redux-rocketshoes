@@ -2,6 +2,9 @@ import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 // esta funcao Provider dera acesso do "store" a todos os components
 import { Provider } from 'react-redux';
+// reatotron
+import './config/ReactotronConfig';
+
 import store from './store';
 
 import GlobalStyle from './styles/global';
