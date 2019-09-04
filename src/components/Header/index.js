@@ -7,7 +7,8 @@ import logo from '../../assets/images/logo.svg';
 
 function Header(props) {
   // console.log(props.cart);
-  const cartSize = props.cart.length;
+  const { cart } = props;
+  const cartSize = cart.length;
 
   return (
     <Container>
