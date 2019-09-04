@@ -21,6 +21,7 @@ export const Container = styled.div`
       border-radius: 4px;
       padding: 12px;
       font-weight: bold;
+      text-transform: uppercase;
 
       transition: background 0.2s;
 
@@ -57,6 +58,7 @@ export const ProductTable = styled.table`
     margin-top: 5px;
     font-size: 18px;
     font-weight: bold;
+    color: #333;
   }
   div {
     display: flex;
