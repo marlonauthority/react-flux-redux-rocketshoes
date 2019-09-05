@@ -1,16 +1,16 @@
-// importa a funcao
 import { createStore, applyMiddleware, compose } from 'redux';
-
 import createSagaMiddleware from 'redux-saga';
 
-// reducer obrigatorio para iniciar
 import rootReducer from './modules/rootReducer';
 import rootSaga from './modules/rootSaga';
-/**
- * reducer guarda as informacoes que podem ser compartilhadas em diferentes components
- */
 
-const sagaMiddleware = createSagaMiddleware();
+const sagaMonitor =
+  process.env.NODE_ENV === 'development'
+    ? console.tron.createSagaMonitor()
+    : null;
+const sagaMiddleware = createSagaMiddleware({
+  sagaMonitor,
+});
 
 // Conexao ao Reactotron
 const enhancer =
@@ -21,7 +21,6 @@ const enhancer =
       )
     : applyMiddleware(sagaMiddleware);
 
-// variavel que executa a funcao
 const store = createStore(rootReducer, enhancer);
 
 sagaMiddleware.run(rootSaga);
