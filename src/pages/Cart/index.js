@@ -6,6 +6,7 @@ import {
   MdAddCircleOutline,
   MdDelete,
 } from 'react-icons/md';
+import { formatPrice } from '../../util/format';
 import { Container, ProductTable, Total } from './styles';
 
 import * as CartActions from '../../store/modules/cart/actions';
@@ -52,7 +53,7 @@ function Cart({ cart, removeFromCart, updateAmount }) {
                 </div>
               </td>
               <td>
-                <strong>R$258,80</strong>
+                <strong>{product.subTotal}</strong>
               </td>
               <td>
                 <button
@@ -82,7 +83,11 @@ function Cart({ cart, removeFromCart, updateAmount }) {
 // mapeia as informacoes do estado e formata em propriedades para usar no component
 const mapStateToProps = state => ({
   // propriedade cart que recebe todas as informacoes do reducer de cart
-  cart: state.cart,
+  // -> .map() pega o produto e refatora adicionando um novo campo subtotal
+  cart: state.cart.map(product => ({
+    ...product,
+    subTotal: formatPrice(product.price * product.amount),
+  })),
 });
 const mapDispatchToProps = dispatch =>
   bindActionCreators(CartActions, dispatch);
