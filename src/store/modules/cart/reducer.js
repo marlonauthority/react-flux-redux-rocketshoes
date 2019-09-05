@@ -22,6 +22,19 @@ export default function cart(state = [], action) {
           draft.splice(productIndex, 1);
         }
       });
+    case '@cart/UPDATE_AMOUNT': {
+      // -> verificacao se o valor recebido da action for menor ou igual a 0
+      if (action.amount <= 0) {
+        return state;
+      }
+      return produce(state, draft => {
+        const productIndex = draft.findIndex(p => p.id === action.id);
+
+        if (productIndex >= 0) {
+          draft[productIndex].amount = Number(action.amount);
+        }
+      });
+    }
     // Estado default caso nao tenha acontecido NADA
     default:
       return state;
