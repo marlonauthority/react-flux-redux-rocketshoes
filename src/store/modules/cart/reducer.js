@@ -5,7 +5,7 @@ export default function cart(state = [], action) {
   // aqui ficará ouvindo a action
   switch (action.type) {
     // caso a action disparada "dispatch" for igual a:
-    case '@cart/ADD':
+    case '@cart/ADD_SUCCESS':
       return produce(state, draft => {
         const productIndex = draft.findIndex(p => p.id === action.product.id);
         if (productIndex >= 0) {

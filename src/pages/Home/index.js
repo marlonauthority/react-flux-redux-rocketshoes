@@ -31,9 +31,9 @@ import { ProductList } from './styles';
     });
   }
 
-  handleAddProduct = product => {
-    const { addToCart } = this.props;
-    addToCart(product)
+  handleAddProduct = id => {
+    const { addToCartRequest } = this.props;
+    addToCartRequest(id)
   }
 
   render() {
@@ -52,7 +52,7 @@ import { ProductList } from './styles';
         <strong>{product.title}</strong>
         <span>{product.priceFormatted}</span>
 
-        <button type="button" onClick={() => this.handleAddProduct(product)}>
+        <button type="button" onClick={() => this.handleAddProduct(product.id)}>
           <div>
             <MdAddShoppingCart size={16} color="#fff" /> {amount[product.id] || 0}
           </div>
