@@ -1,9 +1,13 @@
 import React, {Component} from 'react';
 // Nome auto sugestivo, eé uma funcao que fara o component se conectar ao redux, observe na ultima linha da deste component
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { MdAddShoppingCart } from 'react-icons/md';
 import { formatPrice } from '../../util/format';
 import api from '../../services/api';
+// Actions
+import * as CartActions from '../../store/modules/cart/actions';
+
 import { ProductList } from './styles';
 
  class Home extends Component {
@@ -28,14 +32,8 @@ import { ProductList } from './styles';
   }
 
   handleAddProduct = product => {
-    // todo component que se conecta ao redux recebe uma propriedade dispatch
-    const { dispatch } = this.props;
-    // dispatch dispara uma Action ao Redux aqui por exemplo queremos adcionar um product ao carrinho
-    // -> Action propriamente dita, lembrando que eé necessario um "type"
-    dispatch({
-      type: 'ADD_TO_CART',
-      product,
-    })
+    const { addToCart } = this.props;
+    addToCart(product)
   }
 
   render() {
@@ -67,6 +65,9 @@ import { ProductList } from './styles';
     )
   }
 }
+// -> Converte actions do redux em propriedes do component
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(CartActions, dispatch);
 
 // exporta-se o componente passando como uma 2ª funcao o nome do component, deste modo pode-se fazer o uso do redux
-export default connect()(Home);
+export default connect(null, mapDispatchToProps)(Home);
