@@ -11,7 +11,7 @@ import { Container, ProductTable, Total } from './styles';
 
 import * as CartActions from '../../store/modules/cart/actions';
 
-function Cart({ cart, removeFromCart, updateAmount }) {
+function Cart({ cart, removeFromCart, updateAmount, total }) {
   function increment(product) {
     updateAmount(product.id, product.amount + 1);
   }
@@ -73,7 +73,7 @@ function Cart({ cart, removeFromCart, updateAmount }) {
 
         <Total>
           <span>Total</span>
-          <strong>R$ 1920,28</strong>
+          <strong>{total}</strong>
         </Total>
       </footer>
     </Container>
@@ -88,6 +88,12 @@ const mapStateToProps = state => ({
     ...product,
     subTotal: formatPrice(product.price * product.amount),
   })),
+  // -> o reduce serve para pegar um array e reduzir a um unico valor
+  total: formatPrice(
+    state.cart.reduce((total, product) => {
+      return total + product.price * product.amount;
+    }, 0)
+  ),
 });
 const mapDispatchToProps = dispatch =>
   bindActionCreators(CartActions, dispatch);
