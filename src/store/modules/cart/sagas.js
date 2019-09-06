@@ -10,8 +10,20 @@ function* addToCart({ id }) {
   const productExists = yield select(state =>
     state.cart.find(p => p.id === id)
   );
+  // chamada api
+  const stock = yield call(api.get, `/stock/${id}`);
+  // quantidade no estoque
+  const stockAmount = stock.data.amount;
+  // quantidade no carrinho
+  const currentAmount = productExists ? productExists.amount : 0;
+  // nova qtd adcionada no carrinho
+  const amount = currentAmount + 1;
+  // se no carrinho for maior que a qtd do estoque
+  if (amount > stockAmount) {
+    console.tron.warn('error');
+    return;
+  }
   if (productExists) {
-    const amount = productExists.amount + 1;
     yield put(updateAmount(id, amount));
   } else {
     // o yield e o call seria o mesmo que "await api.get('....')"
