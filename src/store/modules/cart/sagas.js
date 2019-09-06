@@ -1,6 +1,7 @@
 import { call, put, all, takeLatest, select } from 'redux-saga/effects';
 import { toast } from 'react-toastify';
 import api from '../../../services/api';
+import history from '../../../services/history';
 import { formatPrice } from '../../../util/format';
 import { addToCartSuccess, updateAmountSuccess } from './actions';
 // o uso do * ao lado da function chama-se generator, e basicamente é o mesmo que usar o async, na verdade o async await é convertido pelo babel para generators " function* "
@@ -37,6 +38,8 @@ function* addToCart({ id }) {
     };
     // dispara action do redux
     yield put(addToCartSuccess(data));
+    // redireciona
+    history.push('/cart');
   }
 }
 
