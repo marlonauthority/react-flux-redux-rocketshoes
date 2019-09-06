@@ -1,5 +1,14 @@
-import styled from 'styled-components';
+import styled, { keyframes, css } from 'styled-components';
 import { darken } from 'polished';
+
+const rotate = keyframes`
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+`;
 
 export const ProductList = styled.ul`
   display: grid;
@@ -69,4 +78,12 @@ export const ProductList = styled.ul`
       }
     }
   }
+
+  ${props =>
+    props.loading &&
+    css`
+      svg {
+        animation: ${rotate} 2s linear infinite;
+      }
+    `}
 `;

@@ -9,11 +9,12 @@ import api from '../../services/api';
 import * as CartActions from '../../store/modules/cart/actions';
 
 import { ProductList } from './styles';
+import { FaSpinner } from 'react-icons/fa';
 
  class Home extends Component {
   state = {
     products : [],
-
+    loading: true,
   }
 
   async componentDidMount() {
@@ -27,7 +28,8 @@ import { ProductList } from './styles';
     }));
 
     this.setState({
-      products: data
+      products: data,
+      loading: false,
     });
   }
 
@@ -37,12 +39,22 @@ import { ProductList } from './styles';
   }
 
   render() {
-    const { products } = this.state;
+    const { products, loading } = this.state;
     const { amount } = this.props
+
 
     return (
 
-      <ProductList>
+
+
+      <ProductList loading={loading}>
+        {loading === true ? (
+              <FaSpinner color="#fff" size={24} />
+            ) : (
+              null
+            )}
+
+
         { products.map(product => (
           <li key={product.id}>
         <img
@@ -54,7 +66,10 @@ import { ProductList } from './styles';
 
         <button type="button" onClick={() => this.handleAddProduct(product.id)}>
           <div>
-            <MdAddShoppingCart size={16} color="#fff" /> {amount[product.id] || 0}
+            <MdAddShoppingCart size={16} color="#fff" />
+           {amount[product.id] || 0}
+
+
           </div>
           <span>Adicionar ao carrinho</span>
         </button>
