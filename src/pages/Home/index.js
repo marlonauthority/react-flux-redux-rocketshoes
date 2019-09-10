@@ -1,19 +1,25 @@
 import React, { useState, useEffect } from 'react';
-// Nome auto sugestivo, eé uma funcao que fara o component se conectar ao redux, observe na ultima linha da deste component
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { MdAddShoppingCart } from 'react-icons/md';
 import { FaSpinner } from 'react-icons/fa';
 import { formatPrice } from '../../util/format';
 import api from '../../services/api';
-// Actions
 import * as CartActions from '../../store/modules/cart/actions';
 
 import { ProductList } from './styles';
 
-function Home({ amount, addToCartRequest }) {
+export default function Home() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  const amount = useSelector(state =>
+    state.cart.reduce((sumAmount, product) => {
+      sumAmount[product.id] = product.amount;
+      return sumAmount;
+    }, {})
+  );
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     async function loadProducts() {
@@ -31,7 +37,7 @@ function Home({ amount, addToCartRequest }) {
   }, []);
 
   function handleAddProduct(id) {
-    addToCartRequest(id);
+    dispatch(CartActions.addToCartRequest(id));
   }
 
   return (
@@ -56,22 +62,3 @@ function Home({ amount, addToCartRequest }) {
     </ProductList>
   );
 }
-
-const mapStateToProps = state => ({
-  // percorre o estado do carrinho
-  amount: state.cart.reduce((amount, product) => {
-    // retorna um objeto com o id de cada produto e sua propriedade é o amount
-    amount[product.id] = product.amount;
-    return amount;
-  }, {}),
-});
-
-// -> Converte actions do redux em propriedes do component
-const mapDispatchToProps = dispatch =>
-  bindActionCreators(CartActions, dispatch);
-
-// exporta-se o componente passando como uma 2ª funcao o nome do component, deste modo pode-se fazer o uso do redux
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Home);
