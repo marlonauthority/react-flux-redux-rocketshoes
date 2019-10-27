@@ -1,6 +1,11 @@
-# RocketShoes
+# Instalação
 
-Um Ecommerce feita utilizando React JS + Redux
+- rode no terminal **yarn** ou **npm install** para instalação das dependencias
+- rode o json server na raiz para obter os dados na listagem de produtos
+
+```
+json-server api.json -p 3001 -w -d 500
+```
 
 Resultado:
 
